@@ -41,7 +41,7 @@ représente le concept dont l'application est responsable.
 
 Une **application** est une application Web qui
 fait quelque chose – par exemple un système de blog, une base de données publique ou une petite
-application de sondage. 
+application de sondage.
 Un **projet** est un ensemble de réglages et d’applications pour un site Web
 particulier. Un projet peut contenir plusieurs applications. Une application peut apparaître dans plusieurs
 projets.
@@ -56,5 +56,6 @@ Commande à taper à la racine du projet (`/TutoDjango`).
 
 Une **vue** a pour fonction de répondre à la visite d'un utilisateur sur le site en renvoyant une page que l’utilisateur peut voir. Une vue est une fonction qui accepte un objet HttpRequest comme paramètre et retourne un objet HttpResponse. Dans notre exemple de vue, nous renvoyons une réponse HTTP avec un contenu HTML simple : un titre H1 disant «Hello Django !».
 
---- --- ---
-Fin du TD1, ce qu'il faut faire : page contact, page about us.
+---
+
+Fin du TD1.
