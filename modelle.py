@@ -27,9 +27,9 @@ class Rayon(models.Model):
         return self.nomRayon
     
 class Contenir(models.Model):
-    pk = models.CompositePrimaryKey("refProd", "idRayon", primary_key=True)
-    refProd = models.ForeignKey(Produit, on_delete=models.CASCADE)
-    idRayon = models.ForeignKey(Rayon, on_delete=models.CASCADE)
+    pk = models.CompositePrimaryKey("refProd", "idRayon")
+    produit = models.ForeignKey(Produit, on_delete=models.CASCADE)
+    rayon = models.ForeignKey(Rayon, on_delete=models.CASCADE)
     qte = models.IntegerField()
     
     def __str__(self):

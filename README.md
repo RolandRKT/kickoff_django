@@ -4,6 +4,8 @@ Projet universitaire visant à introduire Django.
 
 Par Roland RAKOTOMALALA - BUT 3A Info
 
+# Introduction TD1
+
 1 - **Pour installer django** :
 
 `pip install django`
@@ -59,3 +61,17 @@ Une **vue** a pour fonction de répondre à la visite d'un utilisateur sur le si
 ---
 
 Fin du TD1.
+
+# Début TP1
+
+**Définition** :
+
+- Une migration est un ensemble d'instructions permettant de passer le schéma de votre base de données
+  d'un état à un autre. Il est important de noter que ces instructions peuvent être exécutées
+  automatiquement, comme un code.
+
+à retenir du document :
+
+* Modifiez les modèles (dans models.py).
+* Exécutez `manage.py makemigrations` pour créer des migrations correspondant à ces changements.
+* Exécutez `manage.py migrate` pour appliquer ces modifications à la base de données.
