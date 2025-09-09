@@ -75,3 +75,5 @@ Fin du TD1.
 * Modifiez les modèles (dans models.py).
 * Exécutez `manage.py makemigrations` pour créer des migrations correspondant à ces changements.
 * Exécutez `manage.py migrate` pour appliquer ces modifications à la base de données.
+
+Pour ouvrir le shell `python3 manage.py shell`
