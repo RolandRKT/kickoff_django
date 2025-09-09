@@ -81,3 +81,5 @@ Pour ouvrir le shell `python3 manage.py shell`
 Erreur I/O : pour la régler, je suis parti dans les settings et j'ai changé le chemin databases __dir__ par /tmp.
 
 Pour éviter de tout perdre à chaque fois, je vais cp ce qui a dans /tmp à chaque fin de séance.
+
+# Fin du TP1

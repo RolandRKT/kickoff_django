@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Produit
+from .models import Categorie
+from .models import Statut
 
 # Create your views here.
 def home(request, param):
@@ -19,3 +21,10 @@ def ListProduits(request):
         lesProduits = lesProduits + "<li>" + p.intituleProd + "</li>"
     lesProduits = lesProduits + "</ul>"
     return HttpResponse("<h1>Liste des produits</h1>" + lesProduits)
+
+def ListCategories(request):
+    pass
+
+def ListStatuts(request):
+    pass
+    
