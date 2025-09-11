@@ -5,6 +5,10 @@ from .models import Categorie
 from .models import Statut
 
 # Create your views here.
+def defaultHome(request):
+    return HttpResponse("<h1>Bonjour inconnu !</h1>")
+
+
 def home(request, param):
     return HttpResponse(f"<h1>Salut {param}</h1>")
 
@@ -23,8 +27,18 @@ def ListProduits(request):
     return HttpResponse("<h1>Liste des produits</h1>" + lesProduits)
 
 def ListCategories(request):
-    pass
+    cats = Categorie.objects.all()
+    lesCats = "<ul>"
+    for c in cats:
+        lesCats = lesCats + "<li>" + c.nomCat + "</li>"
+    lesCats = lesCats + "</ul>"
+    return HttpResponse("<h1>Liste des catégories</h1>" + lesCats)
 
 def ListStatuts(request):
-    pass
+    Status = Statut.objects.all()
+    lesStatus = "<ul>"
+    for s in Status:
+        lesStatus = lesStatus + "<li>" + s.libelle + "</li>"
+    lesStatus = lesStatus + "</ul>"
+    return HttpResponse("<h1>Liste des catégories</h1>" + lesStatus)
     
