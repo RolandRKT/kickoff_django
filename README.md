@@ -83,3 +83,14 @@ Erreur I/O : pour la régler, je suis parti dans les settings et j'ai changé le
 Pour éviter de tout perdre à chaque fois, je vais cp ce qui a dans /tmp à chaque fin de séance.
 
 # Fin du TP1
+
+# TD2
+
+superuser : 
+username : admin
+mdp : admin
+mail : rolrkt@yahoo.com
+
+---
+
+Dans la documentation il est dit que CompositePrimaryKey est à ce jour incompatible avec Django Admin.
