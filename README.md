@@ -96,3 +96,5 @@ mail : rolrkt@yahoo.com
 Dans la documentation il est dit que CompositePrimaryKey est à ce jour incompatible avec Django Admin.
 
 # Fin du TD2
+
+Fin de séance, je suis à la page 9 du TP2
