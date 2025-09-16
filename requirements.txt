@@ -277,3 +277,4 @@ xkit==0.0.0
 yapf==0.40.1
 yarl==1.9.4
 zipp==3.17.0
+django-debug-toolbar
