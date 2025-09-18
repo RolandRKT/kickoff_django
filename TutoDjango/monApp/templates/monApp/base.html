@@ -2,10 +2,12 @@
 <html>
     <head>
         <title>Mon app DJANGO</title>
-        <link rel="stylesheet" href="{% static 'styles.css' %}" />
-        {% load django_bootstrap5 %}
-        {% bootstrap_css %}
-        {% bootstrap_javascript %}
+        {% block styles %}
+            <link rel="stylesheet" href="{% static 'styles.css' %}" />
+            {% load django_bootstrap5 %}
+            {% bootstrap_css %}
+            {% bootstrap_javascript %}
+        {% endblock %}
     </head>
     <body>
         {% block nav %}

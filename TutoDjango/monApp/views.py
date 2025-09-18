@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Produit, Categorie, Statut, Rayon
 from django.http import HttpResponse, Http404, JsonResponse
+from django.views.generic import TemplateView
 
 # Create your views here.
 
@@ -17,12 +18,28 @@ def home(request,param=None):
         return HttpResponse("Bonjour %s!" % string)
     else:
         return HttpResponse(f"<h1>Hello {param} !</h1>")
+
+class AboutView(TemplateView):
+    template_name = "monApp/page_home.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(AboutView, self).get_context_data(**kwargs)
+        context['titreh1'] = "About us..."
+        return context
     
-def about(request):
-    return HttpResponse("<p> Bienvenu sur la page A propos !</p>")
+    def post(self, request, **kwargs):
+        return render(request, self.template_name)
     
-def contact(request):
-    return HttpResponse("<p> Bienvenu sur la page de contact !</p>")
+class ContactView(TemplateView):
+    template_name = "monApp/page_home.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(ContactView, self).get_context_data(**kwargs)
+        context['titreh1'] = "Mon contact..."
+        return context
+    
+    def post(self, request, **kwargs):
+        return render(request, self.template_name)
 
 def ListProduits(request):
     prdts = Produit.objects.all()
@@ -43,3 +60,13 @@ def ListRayons(request):
 def ma_vue(request):
     return JsonResponse({'foo': 'bar'})
 
+class HomeView(TemplateView):
+    template_name = "monApp/page_home.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(HomeView, self).get_context_data(**kwargs)
+        context['titreh1'] = "Hello DJANGO"
+        return context
+    
+    def post(self, request, **kwargs):
+        return render(request, self.template_name)
