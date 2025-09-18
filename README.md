@@ -102,3 +102,5 @@ Fin de séance, je suis à la page 9 du TP2
 attention il faut installer : `pip install django-bootstrap5`
 
 documentation bootstrap5 : https://django-bootstrap5.readthedocs.io/en/latest/quickstart.html
+
+# FIN DU TP 2
