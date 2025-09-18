@@ -98,3 +98,7 @@ Dans la documentation il est dit que CompositePrimaryKey est à ce jour incompat
 # Fin du TD2
 
 Fin de séance, je suis à la page 9 du TP2
+
+attention il faut installer : `pip install django-bootstrap5`
+
+documentation bootstrap5 : https://django-bootstrap5.readthedocs.io/en/latest/quickstart.html

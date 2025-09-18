@@ -1,8 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Produit
-from .models import Categorie
-from .models import Statut
+from .models import Produit, Categorie, Statut, Rayon
 from django.http import HttpResponse, Http404, JsonResponse
 
 # Create your views here.
@@ -32,19 +30,15 @@ def ListProduits(request):
 
 def ListCategories(request):
     cats = Categorie.objects.all()
-    lesCats = "<ul>"
-    for c in cats:
-        lesCats = lesCats + "<li>" + c.nomCat + "</li>"
-    lesCats = lesCats + "</ul>"
-    return HttpResponse("<h1>Liste des catégories</h1>" + lesCats)
+    return render(request, 'monApp/list_categories.html',{'cats': cats})
 
 def ListStatuts(request):
     Status = Statut.objects.all()
-    lesStatus = "<ul>"
-    for s in Status:
-        lesStatus = lesStatus + "<li>" + s.libelle + "</li>"
-    lesStatus = lesStatus + "</ul>"
-    return HttpResponse("<h1>Liste des catégories</h1>" + lesStatus)
+    return render(request, 'monApp/list_statuts.html',{'status': Status})
+
+def ListRayons(request):
+    rayons = Rayon.objects.all()
+    return render(request, 'monApp/list_rayons.html',{'rayons': rayons})
 
 def ma_vue(request):
     return JsonResponse({'foo': 'bar'})
