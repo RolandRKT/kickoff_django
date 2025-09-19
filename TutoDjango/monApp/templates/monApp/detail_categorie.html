@@ -1,0 +1,15 @@
+{% extends "monApp/base.html" %}
+{% block contenu %}
+  <h1>{{ cat.nomCat }}</h1>
+
+  <h3>Produits associés :</h3>
+  <ul>
+    {% for p in cat.produits.all %}
+      <li><a href="{% url 'dtl_prdt' p.pk %}">{{ p.intituleProd }}</a></li>
+    {% empty %}
+      <li>Aucun produit dans cette catégorie.</li>
+    {% endfor %}
+  </ul>
+
+  <a href="{% url 'lst_cats' %}">← Retour à la liste des catégories</a>
+{% endblock %}

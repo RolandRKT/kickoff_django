@@ -1,30 +1,38 @@
 {% load static %}
 <html>
-    <head>
-        <title>Mon app DJANGO</title>
-        {% block styles %}
-            <link rel="stylesheet" href="{% static 'styles.css' %}" />
-            {% load django_bootstrap5 %}
-            {% bootstrap_css %}
-            {% bootstrap_javascript %}
-        {% endblock %}
-    </head>
-    <body>
-        {% block nav %}
-            <nav class="navbar navbar-expand-md navbar-dark bg-primary mb-4">
-                {% block menu %}{% endblock %}
-            </nav>
-        {% endblock %}
-        <main role="main" class="container top-pushed">
-            <div class="jumbotron">
-                {% block contenu %}
-                {% endblock %}
+<head>
+    <title>Mon app DJANGO</title>
+    {% block styles %}
+        <link rel="stylesheet" href="{% static 'styles.css' %}" />
+        {% load django_bootstrap5 %}
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
+    {% endblock %}
+</head>
+<body>
+    {% block nav %}
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto d-flex flex-row">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'lst_prdts' %}">Produits</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'lst_cats' %}">Catégories</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'lst_status' %}">Statuts</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'lst_rayons' %}">Rayons</a></li>
+                </ul>
             </div>
-        </main>
-        <footer class="footer">
-            <div class="container">
-                <p>&copy; Copyright {% now "Y" %} by Titof Produition Copyrigh (c)</p>
-            </div>
-        </footer>
-    </body>
+        </nav>
+    {% block menu %}{% endblock %}
+    {% endblock %}
+    <main role="main" class="container top-pushed">
+        <div class="jumbotron">
+            {% block contenu %}
+            {% endblock %}
+        </div>
+    </main>
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; Copyright {% now "Y" %} by Titof Produition Copyrigh (c)</p>
+        </div>
+    </footer>
+</body>
 </html>
