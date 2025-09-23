@@ -1,8 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+
+from .form import ContactUsForm
 from .models import Produit, Categorie, Statut, Rayon
 from django.http import HttpResponse, Http404, JsonResponse
 from django.views.generic import TemplateView, ListView, DetailView
+from django.contrib.auth.views import LoginView
+from django.contrib.auth import authenticate, login, logout
+from django.core.mail import send_mail
+from django.shortcuts import redirect
 
 # Create your views here.
 
@@ -84,13 +90,38 @@ class ContactView(TemplateView):
     template_name = "monApp/page_home.html"
 
     def get_context_data(self, **kwargs):
-        context = super(ContactView, self).get_context_data(**kwargs)
-        context['titreh1'] = "Mon contact..."
+        context = super().get_context_data(**kwargs)
+        context['titreh1'] = "Contact us !"
+        context['form'] = ContactUsForm()
         return context
-    
+
     def post(self, request, **kwargs):
-        return render(request, self.template_name)
+        print('La méthode de requête est : ', request.method)
+        print('Les données POST sont : ', request.POST)
+        if request.method == 'POST':
+            form = ContactUsForm(request.POST)
+        else:
+            form = ContactUsForm()
+        if form.is_valid():
+            send_mail(
+                subject=f'Message from {form.cleaned_data["name"] or "anonyme"} via TutoDjango Contact form',
+                message=form.cleaned_data['message'],
+                from_email=form.cleaned_data['email'],
+                recipient_list=['admin@monApp.com'],
+            )
+            return redirect('email-sent')
+        return render(
+            request,
+            self.template_name,
+            {
+                'titreh1': "Contact us !",
+                'form': form
+            }
+        )
     
+class EmailSentView(TemplateView):
+    template_name = "monApp/email_sent.html"
+
 # --- CATEGORIE ---
 class CategorieListView(ListView):
     model = Categorie
@@ -158,3 +189,37 @@ class RayonDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context["titremenu"] = "Détail du rayon"
         return context
+
+# --- LOGIN ---
+
+class ConnectView(LoginView):
+    template_name = 'monApp/page_login.html'
+    def post(self, request, **kwargs):
+        lgn = request.POST.get('username', False)
+        pswrd = request.POST.get('password', False)
+        user = authenticate(username=lgn, password=pswrd)
+        if user is not None and user.is_active:
+            login(request, user)
+            return render(request, 'monApp/page_home.html', {'param': lgn, 'message': "You're connected"})
+        else:
+            return render(request, 'monApp/page_register.html')
+        
+class RegisterView(TemplateView):
+    template_name = 'monApp/page_register.html'
+
+    def post(self, request, **kwargs):
+        username = request.POST.get('username', False)
+        mail = request.POST.get('mail', False)
+        password = request.POST.get('password', False)
+        user = User.objects.create_user(username, mail, password)
+        user.save()
+        if user is not None and user.is_active:
+            return render(request, 'monApp/page_login.html')
+        else:
+            return render(request, 'monApp/page_register.html')
+        
+class DisconnectView(TemplateView):
+    template_name = 'monApp/page_logout.html'
+    def get(self, request, **kwargs):
+        logout(request)
+        return render(request, self.template_name)

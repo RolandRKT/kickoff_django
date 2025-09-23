@@ -5,8 +5,9 @@ from . import views
 urlpatterns = [
     path("home/", views.HomeView.as_view(template_name="monApp/page_home.html")),
     path("home/<param>/", views.home, name="home"),
-    path("contact/", views.ContactView.as_view(), name="contact"),
-    path("aboutus/", views.AboutView.as_view(), name="aboutus"),
+    path("contact/", views.ContactView.as_view(template_name="monApp/page_home.html"), name="contact"),
+    path("aboutus/", views.AboutView.as_view(template_name="monApp/page_home.html"), name="aboutus"),
+    path("email-sent/", views.EmailSentView.as_view(), name="email-sent"),
 
     # PRODUITS
     path("produits/", views.ProduitListView.as_view(), name="lst_prdts"),
@@ -23,6 +24,11 @@ urlpatterns = [
     # RAYONS
     path("rayons/", views.RayonListView.as_view(), name="lst_rayons"),
     path("rayon/<pk>/", views.RayonDetailView.as_view(), name="dtl_rayon"),
+
+    # LOGIN
+    path('login/', views.ConnectView.as_view(), name='login'),
+    path('register/', views.RegisterView.as_view(), name='register'),
+    path('logout/', views.DisconnectView.as_view(), name='logout'),
 
     path("ma_vue/", views.ma_vue, name="ma_vuuue"),
 ]
