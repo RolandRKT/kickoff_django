@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from .form import ContactUsForm
-from .models import Produit, Categorie, Statut, Rayon
+from .models import Produit, Categorie, Statut, Rayon, User
 from django.http import HttpResponse, Http404, JsonResponse
 from django.views.generic import TemplateView, ListView, DetailView
 from django.contrib.auth.views import LoginView
@@ -211,7 +211,7 @@ class RegisterView(TemplateView):
         username = request.POST.get('username', False)
         mail = request.POST.get('mail', False)
         password = request.POST.get('password', False)
-        user = User.objects.create_user(username, mail, password)
+        user = User.objects.create_user(username=username, email=mail, password=password)
         user.save()
         if user is not None and user.is_active:
             return render(request, 'monApp/page_login.html')
