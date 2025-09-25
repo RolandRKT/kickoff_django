@@ -1,15 +1,17 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from .form import ContactUsForm
+from .form import ContactUsForm, ProduitForm
 from .models import Produit, Categorie, Statut, Rayon
 from django.contrib.auth.models import User
 from django.http import HttpResponse, Http404, JsonResponse
 from django.views.generic import TemplateView, ListView, DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import authenticate, login, logout
 from django.core.mail import send_mail
 from django.shortcuts import redirect
+from django.forms.models import BaseModelForm
 
 # Create your views here.
 
@@ -224,3 +226,51 @@ class DisconnectView(TemplateView):
     def get(self, request, **kwargs):
         logout(request)
         return render(request, self.template_name)
+
+# --- PRODUIT ---
+
+class ProduitCreateView(CreateView):
+    model = Produit
+    form_class = ProduitForm
+    template_name = "monApp/create_produit.html"
+
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        prdt = form.save()
+        return redirect('dtl_prdt', prdt.refProd)
+    
+    # Jamais utilisée
+    def ProduitCreate(request):
+        if request.method == 'POST':
+            form = ProduitForm(request.POST)
+            if form.is_valid():
+                prdt = form.save()
+                return redirect('dtl_prdt', prdt.refProd)
+        else:
+            form = ProduitForm()
+        return render(request, "monApp/create_produit.html", {'form': form})
+
+class ProduitUpdateView(UpdateView):
+    model = Produit
+    form_class = ProduitForm
+    template_name = "monApp/update_produit.html"
+
+    def form_valid(self, form: BaseModelForm) -> HttpResponse:
+        prdt = form.save()
+        return redirect('dtl_prdt', prdt.refProd)
+
+    def ProduitUpdate(request, id):
+        prdt = Produit.objects.get(id=id)
+        if request.method == 'POST':
+            form = ProduitForm(request.POST, instance=prdt)
+            if form.is_valid():
+                # mettre à jour le produit existant dans la base de données
+                form.save()
+                # rediriger vers la page détaillée du produit que nous venons de mettre à jour
+                return redirect('dtl_prdt', prdt.refProd)
+        else:
+            form = ProduitForm(instance=prdt)
+        return render(request, 'monApp/update_produit.html', {'form': form})
+
+class ProduitDeleteView(DeleteView):
+    ...
+

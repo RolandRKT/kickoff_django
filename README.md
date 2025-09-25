@@ -106,3 +106,7 @@ documentation bootstrap5 : https://django-bootstrap5.readthedocs.io/en/latest/qu
 # FIN DU TP 2
 
 # FIN DU TD 3
+
+# DÉBUT DU TP 3
+
+Je suis à la page 9 pour le delete

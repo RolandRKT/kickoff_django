@@ -3,6 +3,7 @@
     <h1>{{titremenu}}</h1>
 {% endblock %}
 {% block contenu %}
+    <a href="{% url 'crt-prdt' %}">Créer un nouveau produit</a>
     <table class="table">
         <thead>
             <tr>
@@ -12,6 +13,7 @@
                 <th>Date fabrication</th>
                 <th>Catégorie</th>
                 <th>Statut</th>
+                <th>Editer</th>
             </tr>
         </thead>
         <tbody>
@@ -23,6 +25,7 @@
                     <td>{{ prdt.dateFabrication }}</td>
                     <td>{{ prdt.categorie }}</td>
                     <td>{{ prdt.statut }}</td>
+                    <td><a href="{% url 'prdt_chng' prdt.refProd %}">modifier</a></td>
                 </tr>
             {% endfor %}
         </tbody>
