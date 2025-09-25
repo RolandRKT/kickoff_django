@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from .form import ContactUsForm
-from .models import Produit, Categorie, Statut, Rayon, User
+from .models import Produit, Categorie, Statut, Rayon
+from django.contrib.auth.models import User
 from django.http import HttpResponse, Http404, JsonResponse
 from django.views.generic import TemplateView, ListView, DetailView
 from django.contrib.auth.views import LoginView
