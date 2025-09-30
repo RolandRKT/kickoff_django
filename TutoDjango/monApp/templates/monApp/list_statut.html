@@ -1,21 +1,36 @@
 {% extends 'monApp/base.html' %}
+{% block menu %}
+    <h1>{{ titremenu }}</h1>
+{% endblock %}
 {% block contenu %}
-        <h1>Hello mes statuts !</h1>
-        <p>
-            Mes statuts sont :
+    <a href="{% url 'crt_statut' %}">Créer un nouveau statut</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Libellé</th>
+                <th>Editer</th>
+            </tr>
+        </thead>
+        <tbody>
             {% for s in status %}
-            {{ s.libelle | upper }},
+                <tr>
+                    <td><a href="{% url 'dlt_statut' s.idStatut %}">{{ s.idStatut }}</a></td>
+                    <td>{{ s.libelle }}</td>
+                    <td><a href="{% url 'upd_statut' s.idStatut %}">modifier</a></td>
+                </tr>
             {% endfor %}
-        </p>
-        <p>
-            J'ai
-            {% if status|length < 5 %}
+        </tbody>
+    </table>
+    <p>
+        J'ai
+        {% if status|length < 5 %}
             peu de
-            {% elif status|length < 10 %}
+        {% elif status|length < 10 %}
             quelques
-            {% else %}
+        {% else %}
             beaucoup de
-            {% endif %}
-            statuts préférés.
-        </p>
+        {% endif %}
+        statuts préférés.
+    </p>
 {% endblock %}

@@ -17,20 +17,35 @@ urlpatterns = [
 
     # CATEGORIES
     path("categories/", views.CategorieListView.as_view(), name="lst_cats"),
+    path("categorie/create/", views.CategorieCreateView.as_view(), name="crt_cat"),
     path("categorie/<pk>/", views.CategorieDetailView.as_view(), name="dtl_cat"),
 
     # STATUTS
     path("statuts/", views.StatutListView.as_view(), name="lst_status"),
+    path("statut/create/", views.StatutCreateView.as_view(), name="crt_statut"),
     path("statut/<pk>/", views.StatutDetailView.as_view(), name="dtl_statut"),
 
     # RAYONS
     path("rayons/", views.RayonListView.as_view(), name="lst_rayons"),
+    path("rayon/create/", views.RayonCreateView.as_view(), name="crt_rayon"),
     path("rayon/<pk>/", views.RayonDetailView.as_view(), name="dtl_rayon"),
 
     # LOGIN
     path('login/', views.ConnectView.as_view(), name='login'),
     path('register/', views.RegisterView.as_view(), name='register'),
     path('logout/', views.DisconnectView.as_view(), name='logout'),
+
+    # CATEGORIES CRUD
+    path("categorie/<pk>/update/", views.CategorieUpdateView.as_view(), name="upd_cat"),
+    path("categorie/<pk>/delete/", views.CategorieDeleteView.as_view(), name="dlt_cat"),
+
+    # STATUTS CRUD
+    path("statut/<pk>/update/", views.StatutUpdateView.as_view(), name="upd_statut"),
+    path("statut/<pk>/delete/", views.StatutDeleteView.as_view(), name="dlt_statut"),
+
+    # RAYONS CRUD
+    path("rayon/<pk>/update/", views.RayonUpdateView.as_view(), name="upd_rayon"),
+    path("rayon/<pk>/delete/", views.RayonDeleteView.as_view(), name="dlt_rayon"),
 
     path("ma_vue/", views.ma_vue, name="ma_vuuue"),
 ]

@@ -1,21 +1,36 @@
 {% extends 'monApp/base.html' %}
+{% block menu %}
+    <h1>{{ titremenu }}</h1>
+{% endblock %}
 {% block contenu %}
-        <h1>Hello mes rayons !</h1>
-        <p>
-            Mes rayons sont :
+    <a href="{% url 'crt_rayon' %}">Créer un nouveau rayon</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom rayon</th>
+                <th>Editer</th>
+            </tr>
+        </thead>
+        <tbody>
             {% for r in rayons %}
-            {{ r.nomRayon | upper }},
+                <tr>
+                    <td><a href="{% url 'dlt_rayon' r.idRayon %}">{{ r.idRayon }}</a></td>
+                    <td>{{ r.nomRayon }}</td>
+                    <td><a href="{% url 'upd_rayon' r.idRayon %}">modifier</a></td>
+                </tr>
             {% endfor %}
-        </p>
-        <p>
-            J'ai
-            {% if rayons|length < 5 %}
+        </tbody>
+    </table>
+    <p>
+        J'ai
+        {% if rayons|length < 5 %}
             peu de
-            {% elif rayons|length < 10 %}
+        {% elif rayons|length < 10 %}
             quelques
-            {% else %}
+        {% else %}
             beaucoup de
-            {% endif %}
-            rayons préférés.
-        </p>
+        {% endif %}
+        rayons préférés.
+    </p>
 {% endblock %}

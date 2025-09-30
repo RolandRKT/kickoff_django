@@ -1,21 +1,36 @@
 {% extends 'monApp/base.html' %}
+{% block menu %}
+    <h1>{{ titremenu }}</h1>
+{% endblock %}
 {% block contenu %}
-    <h1>Hello mes catégories !</h1>
-        <p>
-            Mes catégories sont :
+    <a href="{% url 'crt_cat' %}">Créer une nouvelle catégorie</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom catégorie</th>
+                <th>Editer</th>
+            </tr>
+        </thead>
+        <tbody>
             {% for cat in cats %}
-            {{ cat.nomCat | upper }},
+                <tr>
+                    <td><a href="{% url 'dtl_cat' cat.idCat %}">{{ cat.idCat }}</a></td>
+                    <td>{{ cat.nomCat }}</td>
+                    <td><a href="{% url 'upd_cat' cat.idCat %}">modifier</a></td>
+                </tr>
             {% endfor %}
-        </p>
-        <p>
-            J'ai
-            {% if cats|length < 5 %}
+        </tbody>
+    </table>
+    <p>
+        J'ai
+        {% if cats|length < 5 %}
             peu de
-            {% elif cats|length < 10 %}
+        {% elif cats|length < 10 %}
             quelques
-            {% else %}
+        {% else %}
             beaucoup de
-            {% endif %}
-            catégories préférées.
-        </p>
+        {% endif %}
+        catégories préférées.
+    </p>
 {% endblock %}

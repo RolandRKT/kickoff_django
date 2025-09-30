@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from .form import ContactUsForm, ProduitForm
+from .form import ContactUsForm, ProduitForm, CategorieForm, StatutForm, RayonForm
 from .models import Produit, Categorie, Statut, Rayon
 from django.contrib.auth.models import User
 from django.http import HttpResponse, Http404, JsonResponse
@@ -12,6 +12,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.mail import send_mail
 from django.shortcuts import redirect
 from django.forms.models import BaseModelForm
+from django.urls import reverse_lazy
 
 # Create your views here.
 
@@ -274,3 +275,74 @@ class ProduitUpdateView(UpdateView):
 class ProduitDeleteView(DeleteView):
     ...
 
+# --- CATEGORIE ---
+class CategorieCreateView(CreateView):
+    model = Categorie
+    form_class = CategorieForm
+    template_name = "monApp/create_categorie.html"
+
+    def form_valid(self, form):
+        cat = form.save()
+        return redirect('dtl_cat', cat.idCat)
+
+class CategorieUpdateView(UpdateView):
+    model = Categorie
+    form_class = CategorieForm
+    template_name = "monApp/update_categorie.html"
+
+    def form_valid(self, form):
+        cat = form.save()
+        return redirect('dtl_cat', cat.idCat)
+
+class CategorieDeleteView(DeleteView):
+    model = Categorie
+    template_name = "monApp/delete_categorie.html"
+    success_url = reverse_lazy('lst_cats')
+
+# --- STATUT ---
+class StatutCreateView(CreateView):
+    model = Statut
+    form_class = StatutForm
+    template_name = "monApp/create_statut.html"
+
+    def form_valid(self, form):
+        stat = form.save()
+        return redirect('dtl_statut', stat.idStatut)
+
+class StatutUpdateView(UpdateView):
+    model = Statut
+    form_class = StatutForm
+    template_name = "monApp/update_statut.html"
+
+    def form_valid(self, form):
+        stat = form.save()
+        return redirect('dtl_statut', stat.idStatut)
+
+class StatutDeleteView(DeleteView):
+    model = Statut
+    template_name = "monApp/delete_statut.html"
+    success_url = reverse_lazy('lst_status')
+
+# --- RAYON ---
+class RayonCreateView(CreateView):
+    model = Rayon
+    form_class = RayonForm
+    template_name = "monApp/create_rayon.html"
+
+    def form_valid(self, form):
+        rayon = form.save()
+        return redirect('dtl_rayon', rayon.idRayon)
+
+class RayonUpdateView(UpdateView):
+    model = Rayon
+    form_class = RayonForm
+    template_name = "monApp/update_rayon.html"
+
+    def form_valid(self, form):
+        rayon = form.save()
+        return redirect('dtl_rayon', rayon.idRayon)
+
+class RayonDeleteView(DeleteView):
+    model = Rayon
+    template_name = "monApp/delete_rayon.html"
+    success_url = reverse_lazy('lst_rayons')
