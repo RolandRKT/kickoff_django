@@ -1,15 +1,22 @@
 {% extends "monApp/base.html" %}
 {% block contenu %}
-  <h1>{{ cat.nomCat }}</h1>
-
-  <h3>Produits associés :</h3>
-  <ul>
-    {% for p in cat.produits.all %}
-      <li><a href="{% url 'dtl_prdt' p.pk %}">{{ p.intituleProd }}</a></li>
-    {% empty %}
-      <li>Aucun produit dans cette catégorie.</li>
-    {% endfor %}
-  </ul>
+<div class="card mb-4">
+<div class="card-header bg-primary text-white">
+<h4>Détail de la catégorie</h4>
+</div>
+<div class="card-body">
+<h5 class="card-title">{{ ctgr.nomCat }}</h5>
+<ul class="list-unstyled">
+<li><strong>Référence :</strong> {{ ctgr.idCat }}</li>
+<li><strong>Nom catégorie :</strong> {{ ctgr.nomCat }}</li>
+</ul>
+<div class="card-footer text-center">
+<a href="{% url 'upd_cat' ctgr.idCat %}" class="btn btn-warning mt-2">Modifier</a>
+<a href="{% url 'dlt_cat' ctgr.idCat %}" class="btn btn-danger mt-2">Supprimer</a>
+<a href="{% url 'lst_cats'%}" class="btn btn-info mt-2">Retour</a>
+</div>
+</div>
+</div>
 
   <a href="{% url 'lst_cats' %}">← Retour à la liste des catégories</a>
 {% endblock %}
