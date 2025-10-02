@@ -9,6 +9,7 @@
             <tr>
                 <th>Id</th>
                 <th>Nom catégorie</th>
+                <th>Nb Produits</th>
                 <th>Editer</th>
             </tr>
         </thead>
@@ -17,6 +18,7 @@
                 <tr>
                     <td><a href="{% url 'dtl_cat' cat.idCat %}">{{ cat.idCat }}</a></td>
                     <td>{{ cat.nomCat }}</td>
+                    <td>{{ cat.nb_produits }}</td>
                     <td><a href="{% url 'upd_cat' cat.idCat %}">modifier</a></td>
                 </tr>
             {% endfor %}

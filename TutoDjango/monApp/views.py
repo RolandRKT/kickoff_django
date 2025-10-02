@@ -13,6 +13,9 @@ from django.core.mail import send_mail
 from django.shortcuts import redirect
 from django.forms.models import BaseModelForm
 from django.urls import reverse_lazy
+from django.db.models import Count
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -61,8 +64,12 @@ class ProduitListView(ListView):
     context_object_name = "prdts"
     queryset = Produit.objects.filter(refProd=2)
 
-    def get_queryset(self ) :
-        return Produit.objects.order_by("prixUnitaireProd")
+    def get_queryset(self):
+        qs = Produit.objects.select_related('categorie', 'statut').order_by("prixUnitaireProd")
+        q = self.request.GET.get('q')
+        if q:
+            qs = qs.filter(intituleProd__icontains=q)
+        return qs
     
     def get_context_data(self, **kwargs):
         context = super(ProduitListView, self).get_context_data(**kwargs)
@@ -132,6 +139,10 @@ class CategorieListView(ListView):
     template_name = "monApp/list_categories.html"
     context_object_name = "cats"
 
+    def get_queryset(self):
+        # Annoter chaque catégorie avec le nombre de produits liés
+        return Categorie.objects.annotate(nb_produits=Count('produits'))
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["titremenu"] = "Liste des catégories"
@@ -155,11 +166,13 @@ class StatutListView(ListView):
     template_name = "monApp/list_statut.html"
     context_object_name = "status"
 
+    def get_queryset(self):
+        return Statut.objects.annotate(nb_produits=Count('produits'))
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["titremenu"] = "Liste des statuts"
         return context
-
 
 class StatutDetailView(DetailView):
     model = Statut
@@ -170,7 +183,6 @@ class StatutDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context["titremenu"] = "Détail du statut"
         return context
-
 
 # --- RAYON ---
 class RayonListView(ListView):
@@ -230,6 +242,7 @@ class DisconnectView(TemplateView):
 
 # --- PRODUIT ---
 
+@method_decorator(login_required, name='dispatch')
 class ProduitCreateView(CreateView):
     model = Produit
     form_class = ProduitForm
@@ -250,6 +263,7 @@ class ProduitCreateView(CreateView):
             form = ProduitForm()
         return render(request, "monApp/create_produit.html", {'form': form})
 
+@method_decorator(login_required, name='dispatch')
 class ProduitUpdateView(UpdateView):
     model = Produit
     form_class = ProduitForm
@@ -272,10 +286,14 @@ class ProduitUpdateView(UpdateView):
             form = ProduitForm(instance=prdt)
         return render(request, 'monApp/update_produit.html', {'form': form})
 
+@method_decorator(login_required, name='dispatch')
 class ProduitDeleteView(DeleteView):
-    ...
+    model = Produit
+    template_name = "monApp/delete_produit.html"
+    success_url = reverse_lazy('lst_prdts')
 
 # --- CATEGORIE ---
+@method_decorator(login_required, name='dispatch')
 class CategorieCreateView(CreateView):
     model = Categorie
     form_class = CategorieForm
@@ -285,6 +303,7 @@ class CategorieCreateView(CreateView):
         cat = form.save()
         return redirect('dtl_cat', cat.idCat)
 
+@method_decorator(login_required, name='dispatch')
 class CategorieUpdateView(UpdateView):
     model = Categorie
     form_class = CategorieForm
@@ -294,12 +313,14 @@ class CategorieUpdateView(UpdateView):
         cat = form.save()
         return redirect('dtl_cat', cat.idCat)
 
+@method_decorator(login_required, name='dispatch')
 class CategorieDeleteView(DeleteView):
     model = Categorie
     template_name = "monApp/delete_categorie.html"
     success_url = reverse_lazy('lst_cats')
 
 # --- STATUT ---
+@method_decorator(login_required, name='dispatch')
 class StatutCreateView(CreateView):
     model = Statut
     form_class = StatutForm
@@ -308,7 +329,8 @@ class StatutCreateView(CreateView):
     def form_valid(self, form):
         stat = form.save()
         return redirect('dtl_statut', stat.idStatut)
-
+    
+@method_decorator(login_required, name='dispatch')
 class StatutUpdateView(UpdateView):
     model = Statut
     form_class = StatutForm
@@ -318,12 +340,14 @@ class StatutUpdateView(UpdateView):
         stat = form.save()
         return redirect('dtl_statut', stat.idStatut)
 
+@method_decorator(login_required, name='dispatch')
 class StatutDeleteView(DeleteView):
     model = Statut
     template_name = "monApp/delete_statut.html"
     success_url = reverse_lazy('lst_status')
 
 # --- RAYON ---
+@method_decorator(login_required, name='dispatch')
 class RayonCreateView(CreateView):
     model = Rayon
     form_class = RayonForm
@@ -333,6 +357,7 @@ class RayonCreateView(CreateView):
         rayon = form.save()
         return redirect('dtl_rayon', rayon.idRayon)
 
+@method_decorator(login_required, name='dispatch')
 class RayonUpdateView(UpdateView):
     model = Rayon
     form_class = RayonForm
@@ -342,6 +367,7 @@ class RayonUpdateView(UpdateView):
         rayon = form.save()
         return redirect('dtl_rayon', rayon.idRayon)
 
+@method_decorator(login_required, name='dispatch')
 class RayonDeleteView(DeleteView):
     model = Rayon
     template_name = "monApp/delete_rayon.html"
