@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     "django_bootstrap5",
 ]
 
+LOGIN_URL = '/monApp/login/'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

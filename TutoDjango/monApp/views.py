@@ -44,6 +44,7 @@ def ListRayons(request):
     rayons = Rayon.objects.all()
     return render(request, 'monApp/list_rayons.html',{'rayons': rayons})
 
+@login_required(login_url='/monApp/login/')
 def ma_vue(request):
     return JsonResponse({'foo': 'bar'})
 
