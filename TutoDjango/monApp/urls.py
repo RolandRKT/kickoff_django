@@ -3,7 +3,12 @@ from django.views.generic import *
 from . import views
 
 urlpatterns = [
-    path("home/", views.HomeView.as_view(template_name="monApp/page_home.html")),
+    # LOGIN
+    path('login/', views.ConnectView.as_view(), name='login'),
+    path('register/', views.RegisterView.as_view(), name='register'),
+    path('logout/', views.DisconnectView.as_view(), name='logout'),
+
+    path("home/", views.HomeView.as_view(template_name="monApp/page_home.html"), name="home_no_param"),
     path("home/<param>/", views.home, name="home"),
     path("contact/", views.ContactView.as_view(template_name="monApp/page_home.html"), name="contact"),
     path("aboutus/", views.AboutView.as_view(template_name="monApp/page_home.html"), name="aboutus"),
@@ -30,11 +35,6 @@ urlpatterns = [
     path("rayons/", views.RayonListView.as_view(), name="lst_rayons"),
     path("rayon/create/", views.RayonCreateView.as_view(), name="crt_rayon"),
     path("rayon/<pk>/", views.RayonDetailView.as_view(), name="dtl_rayon"),
-
-    # LOGIN
-    path('login/', views.ConnectView.as_view(), name='login'),
-    path('register/', views.RegisterView.as_view(), name='register'),
-    path('logout/', views.DisconnectView.as_view(), name='logout'),
 
     # CATEGORIES CRUD
     path("categorie/<pk>/update/", views.CategorieUpdateView.as_view(), name="upd_cat"),
