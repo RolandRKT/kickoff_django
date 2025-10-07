@@ -36,8 +36,8 @@ class Rayon(models.Model):
     
 class Contenir(models.Model):
     pk = models.CompositePrimaryKey("refProd", "idRayon", primary_key=True)
-    refProd = models.ForeignKey(Produit, on_delete=models.CASCADE)
-    idRayon = models.ForeignKey(Rayon, on_delete=models.CASCADE)
+    refProd = models.ForeignKey(Produit, on_delete=models.CASCADE, related_name="contenir")
+    idRayon = models.ForeignKey(Rayon, on_delete=models.CASCADE, related_name="contenir")
     qte = models.IntegerField()
     
     def __str__(self):

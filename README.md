@@ -109,4 +109,8 @@ documentation bootstrap5 : https://django-bootstrap5.readthedocs.io/en/latest/qu
 
 # DÉBUT DU TP 3
 
-Je suis à la page 9 pour le delete
+# Fin du TP 3
+
+# Début TD 4
+
+J'ai sauté la partie style pour me concentrer sur les fonctionnalités comme le login required et la barre de recherche.
