@@ -114,3 +114,15 @@ documentation bootstrap5 : https://django-bootstrap5.readthedocs.io/en/latest/qu
 # Début TD 4
 
 J'ai sauté la partie style pour me concentrer sur les fonctionnalités comme le login required et la barre de recherche.
+
+En résumé pour le moment :  
+
+Listes et détails des produits, catégories, statuts et rayons implémentés.
+
+Optimisation des requêtes avec select_related et prefetch_related pour limiter le nombre de requêtes.
+
+CRUD et authentification fonctionnels pour les quatre modèles principaux.
+
+Affichage des totaux et des informations liées dans les vues Rayon et Catégorie.
+
+Barre de recherche ajoutée pour les produits.

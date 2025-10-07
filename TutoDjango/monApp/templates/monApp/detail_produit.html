@@ -13,5 +13,12 @@
         <li>Date de fabrication : {{ prdt.dateFabrication }}</li>
         <li>Catégorie : {{ prdt.categorie }}</li>
         <li>Statut : {{ prdt.statut }}</li>
+        <li>Rayons :
+            {% for c in prdt.contenir.all %}
+                {{ c.idRayon.nomRayon }}{% if not forloop.last %}, {% endif %}
+            {% empty %}
+                Aucun rayon associé.
+            {% endfor %}
+        </li>
     </ul>
 {% endblock %}

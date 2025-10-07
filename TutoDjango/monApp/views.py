@@ -16,6 +16,7 @@ from django.urls import reverse_lazy
 from django.db.models import Count
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from django.db.models import Prefetch
 
 # Create your views here.
 
@@ -191,9 +192,30 @@ class RayonListView(ListView):
     template_name = "monApp/list_rayons.html"
     context_object_name = "rayons"
 
+    def get_queryset(self):
+        # Précharge tous les Contenir liés à chaque rayon, et le produit de chaque Contenir
+        return Rayon.objects.prefetch_related(
+            Prefetch(
+                "contenir",  # related_name de Contenir côté Rayon
+                queryset=Contenir.objects.select_related("refProd")
+            )
+        )
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["titremenu"] = "Liste des rayons"
+        context["titremenu"] = "Liste de mes rayons"
+        ryns_dt = []
+
+        for rayon in context['rayons']:
+            total_stock = 0
+            for c in rayon.contenir.all():  # related_name côté Rayon
+                total_stock += c.qte * c.refProd.prixUnitaireProd
+            ryns_dt.append({
+                'rayon': rayon,
+                'total_stock': total_stock
+            })
+
+        context['ryns_dt'] = ryns_dt
         return context
 
 
