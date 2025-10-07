@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from .form import ContactUsForm, ProduitForm, CategorieForm, StatutForm, RayonForm
-from .models import Produit, Categorie, Statut, Rayon
+from .models import Contenir, Produit, Categorie, Statut, Rayon
 from django.contrib.auth.models import User
 from django.http import HttpResponse, Http404, JsonResponse
 from django.views.generic import TemplateView, ListView, DetailView
@@ -204,7 +204,29 @@ class RayonDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["titremenu"] = "Détail du rayon"
+        rayon = self.object
+        contenir_items = rayon.contenir.select_related('refProd').all()  # <- related_name
+
+        prdts_dt = []
+        total_rayon = 0
+        total_nb_produit = 0
+
+        for c in contenir_items:
+            total = c.total_produit
+            total_rayon += total
+            total_nb_produit += c.qte
+            prdts_dt.append({
+                "produit": c.refProd,
+                "qte": c.qte,
+                "prix_unitaire": c.refProd.prixUnitaireProd,
+                "total_produit": total
+            })
+
+        context.update({
+            "prdts_dt": prdts_dt,
+            "total_rayon": total_rayon,
+            "total_nb_produit": total_nb_produit
+        })
         return context
 
 # --- LOGIN ---
@@ -249,9 +271,12 @@ class ProduitCreateView(CreateView):
     form_class = ProduitForm
     template_name = "monApp/create_produit.html"
 
-    def form_valid(self, form: BaseModelForm) -> HttpResponse:
-        prdt = form.save()
-        return redirect('dtl_prdt', prdt.refProd)
+    def form_valid(self, form):
+        produit = form.save()
+        rayon = form.cleaned_data.get('rayon')
+        if rayon:
+            Contenir.objects.create(refProd=produit, idRayon=rayon, qte=1)
+        return redirect('dtl_prdt', produit.refProd)
     
     # Jamais utilisée
     def ProduitCreate(request):

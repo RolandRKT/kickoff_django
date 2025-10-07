@@ -8,6 +8,7 @@ class ContactUsForm(forms.Form):
     message = forms.CharField(max_length=1000)
 
 class ProduitForm(forms.ModelForm):
+    rayon = forms.ModelChoiceField(queryset=Rayon.objects.all(), required=False)
     class Meta:
         model = Produit
         fields = '__all__'

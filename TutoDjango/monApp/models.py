@@ -42,3 +42,7 @@ class Contenir(models.Model):
     
     def __str__(self):
         return "Ce produit dans ce rayon possède " + self.qte
+
+    @property
+    def total_produit(self):
+        return self.qte * self.refProd.prixUnitaireProd
