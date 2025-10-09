@@ -154,11 +154,17 @@ class CategorieListView(ListView):
 class CategorieDetailView(DetailView):
     model = Categorie
     template_name = "monApp/detail_categorie.html"
-    context_object_name = "cat"
+    context_object_name = "ctgr"
+
+    def get_queryset(self):
+        # On utilise le même related_name que dans le modèle
+        return Categorie.objects.annotate(nb_produits=Count('produits'))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["titremenu"] = "Détail de la catégorie"
+        context['titremenu'] = "Détail de la catégorie"
+        # Récupérer tous les produits liés
+        context['prdts'] = self.object.produits.all()
         return context
 
 
