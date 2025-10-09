@@ -50,6 +50,8 @@ urlpatterns = [
 
     # CONTENIR ADD
     path('contenir/ajouter/', views.ContenirCreateView.as_view(), name='crt_contenir'),
+    path('contenir/<int:pk>/update/', views.UpdateContenirView.as_view(), name='upd_contenir'),
+    path('contenir/<int:pk>/delete/', views.DeleteContenirView.as_view(), name='dlt_contenir'),
 
     path("ma_vue/", views.ma_vue, name="ma_vuuue"),
 ]

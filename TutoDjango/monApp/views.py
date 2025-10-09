@@ -452,3 +452,47 @@ class ContenirCreateView(CreateView):
             contenir = Contenir(refProd=refProd, idRayon=idRayon, qte=qte)
             contenir.save()
             return redirect('dtl_rayon', idRayon.idRayon)
+        
+@method_decorator(login_required, name='dispatch')
+class UpdateContenirView(UpdateView):
+    model = Contenir
+    form_class = ContenirForm
+    template_name = "monApp/update_contenir.html"
+
+    def get_success_url(self):
+        return reverse_lazy('dtl_rayon', kwargs={'pk': self.object.idRayon.idRayon})
+
+    def form_valid(self, form):
+        contenir = form.save(commit=False)
+        if contenir.qte <= 0:
+            # Si la quantité est nulle ou négative, supprimer la ligne
+            contenir.delete()
+        else:
+            contenir.save()
+        return redirect(self.get_success_url())
+    
+@method_decorator(login_required, name='dispatch')
+class DeleteContenirView(DeleteView):
+    model = Contenir
+    template_name = "monApp/delete_contenir.html"
+
+    def get_success_url(self):
+        return reverse_lazy('dtl_rayon', kwargs={'pk': self.object.idRayon.idRayon})
+    
+class ContenirListView(ListView):
+    model = Contenir
+    template_name = "monApp/list_contenir.html"
+    context_object_name = "prdts"
+    queryset = Produit.objects.filter(refProd=2)
+
+    def get_queryset(self):
+        qs = Produit.objects.select_related('categorie', 'statut').order_by("prixUnitaireProd")
+        q = self.request.GET.get('q')
+        if q:
+            qs = qs.filter(intituleProd__icontains=q)
+        return qs
+    
+    def get_context_data(self, **kwargs):
+        context = super(ContenirListView, self).get_context_data(**kwargs)
+        context['titremenu'] = "Liste de mes produits"
+        return context

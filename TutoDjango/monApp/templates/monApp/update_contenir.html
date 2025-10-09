@@ -1,0 +1,15 @@
+{% extends "monApp/base.html" %}
+
+{% block menu %}
+<h1>Modifier la quantité</h1>
+{% endblock %}
+
+{% block contenu %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.qte.label_tag }}<br>
+    {{ form.qte }}
+    <button type="submit" class="btn btn-primary mt-2">Mettre à jour</button>
+</form>
+<a href="{% url 'dtl_rayon' form.instance.idRayon.idRayon %}">← Retour au rayon</a>
+{% endblock %}
