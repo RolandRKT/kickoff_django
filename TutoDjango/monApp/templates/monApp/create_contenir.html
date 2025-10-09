@@ -1,0 +1,25 @@
+{% extends "monApp/base.html" %}
+
+{% block menu %}
+<h1>Ajouter un produit dans un rayon</h1>
+{% endblock %}
+
+{% block contenu %}
+<form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        {{ form.refProd.label_tag }}<br>
+        {{ form.refProd }}
+    </div>
+    <div class="mb-3">
+        {{ form.idRayon.label_tag }}<br>
+        {{ form.idRayon }}
+    </div>
+    <div class="mb-3">
+        {{ form.qte.label_tag }}<br>
+        {{ form.qte }}
+    </div>
+    <button type="submit" class="btn btn-primary">Ajouter</button>
+</form>
+<a href="{% url 'lst_rayons' %}">← Retour à la liste des rayons</a>
+{% endblock %}

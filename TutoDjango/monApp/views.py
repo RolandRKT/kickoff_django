@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from .form import ContactUsForm, ProduitForm, CategorieForm, StatutForm, RayonForm
+from .form import ContactUsForm, ContenirForm, ProduitForm, CategorieForm, StatutForm, RayonForm
 from .models import Contenir, Produit, Categorie, Statut, Rayon
 from django.contrib.auth.models import User
 from django.http import HttpResponse, Http404, JsonResponse
@@ -426,3 +426,29 @@ class RayonDeleteView(DeleteView):
     model = Rayon
     template_name = "monApp/delete_rayon.html"
     success_url = reverse_lazy('lst_rayons')
+
+# --- CONTENIR ---
+@method_decorator(login_required, name='dispatch')
+class ContenirCreateView(CreateView):
+    model = Contenir
+    form_class = ContenirForm
+    template_name = "monApp/create_contenir.html"
+
+    def form_valid(self, form):
+        # On crée l'objet Contenir
+        refProd = form.cleaned_data['refProd']
+        idRayon = form.cleaned_data['idRayon']
+        qte = form.cleaned_data['qte']
+
+        # Vérifier si le lien existe déjà
+        existing = Contenir.objects.filter(refProd=refProd, idRayon=idRayon).first()
+        if existing:
+            # Ajouter la quantité
+            existing.qte += qte
+            existing.save()
+            return redirect('dtl_rayon', existing.idRayon.idRayon)
+        else:
+            # Créer un nouveau Contenir
+            contenir = Contenir(refProd=refProd, idRayon=idRayon, qte=qte)
+            contenir.save()
+            return redirect('dtl_rayon', idRayon.idRayon)

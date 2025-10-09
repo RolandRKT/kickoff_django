@@ -48,5 +48,8 @@ urlpatterns = [
     path("rayon/<pk>/update/", views.RayonUpdateView.as_view(), name="upd_rayon"),
     path("rayon/<pk>/delete/", views.RayonDeleteView.as_view(), name="dlt_rayon"),
 
+    # CONTENIR ADD
+    path('contenir/ajouter/', views.ContenirCreateView.as_view(), name='crt_contenir'),
+
     path("ma_vue/", views.ma_vue, name="ma_vuuue"),
 ]
