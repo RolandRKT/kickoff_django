@@ -82,9 +82,9 @@ Erreur I/O : pour la régler, je suis parti dans les settings et j'ai changé le
 
 Pour éviter de tout perdre à chaque fois, je vais cp ce qui a dans /tmp à chaque fin de séance.
 
-# Fin du TP1
+# FIN DU TP1
 
-# TD2
+# DEBUT DU TD2
 
 superuser : 
 username : admin
@@ -109,20 +109,10 @@ documentation bootstrap5 : https://django-bootstrap5.readthedocs.io/en/latest/qu
 
 # DÉBUT DU TP 3
 
-# Fin du TP 3
+# FIN DU TP3
 
-# Début TD 4
+# DÉBUT DU TD4
 
-J'ai sauté la partie style pour me concentrer sur les fonctionnalités comme le login required et la barre de recherche.
+# FIN DU TD4
 
-En résumé pour le moment :  
-
-Listes et détails des produits, catégories, statuts et rayons implémentés.
-
-Optimisation des requêtes avec select_related et prefetch_related pour limiter le nombre de requêtes.
-
-CRUD et authentification fonctionnels pour les quatre modèles principaux.
-
-Affichage des totaux et des informations liées dans les vues Rayon et Catégorie.
-
-Barre de recherche ajoutée pour les produits.
+# DÉBUT DU TP4
