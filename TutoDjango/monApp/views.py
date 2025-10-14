@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 
 from .form import ContactUsForm, ContenirForm, ProduitForm, CategorieForm, StatutForm, RayonForm
@@ -434,21 +434,26 @@ class ContenirCreateView(CreateView):
     form_class = ContenirForm
     template_name = "monApp/create_contenir.html"
 
+    def get_initial(self):
+        """ Préremplit le champ Rayon dans le formulaire """
+        rayon_id = self.kwargs.get('rayon_id')
+        initial = super().get_initial()
+        if rayon_id:
+            initial['idRayon'] = Rayon.objects.get(pk=rayon_id)
+        return initial
+
     def form_valid(self, form):
-        # On crée l'objet Contenir
         refProd = form.cleaned_data['refProd']
         idRayon = form.cleaned_data['idRayon']
         qte = form.cleaned_data['qte']
 
-        # Vérifier si le lien existe déjà
+        # Si le produit est déjà dans ce rayon → on augmente juste la quantité
         existing = Contenir.objects.filter(refProd=refProd, idRayon=idRayon).first()
         if existing:
-            # Ajouter la quantité
             existing.qte += qte
             existing.save()
             return redirect('dtl_rayon', existing.idRayon.idRayon)
         else:
-            # Créer un nouveau Contenir
             contenir = Contenir(refProd=refProd, idRayon=idRayon, qte=qte)
             contenir.save()
             return redirect('dtl_rayon', idRayon.idRayon)
@@ -459,13 +464,18 @@ class UpdateContenirView(UpdateView):
     form_class = ContenirForm
     template_name = "monApp/update_contenir.html"
 
+    def get_object(self, queryset=None):
+        idRayon = self.kwargs.get('idRayon')
+        refProd = self.kwargs.get('refProd')
+        return get_object_or_404(Contenir, idRayon=idRayon, refProd=refProd)
+
     def get_success_url(self):
+        # redirige vers la page du rayon après modification
         return reverse_lazy('dtl_rayon', kwargs={'pk': self.object.idRayon.idRayon})
 
     def form_valid(self, form):
         contenir = form.save(commit=False)
         if contenir.qte <= 0:
-            # Si la quantité est nulle ou négative, supprimer la ligne
             contenir.delete()
         else:
             contenir.save()
@@ -475,6 +485,11 @@ class UpdateContenirView(UpdateView):
 class DeleteContenirView(DeleteView):
     model = Contenir
     template_name = "monApp/delete_contenir.html"
+
+    def get_object(self, queryset=None):
+        idRayon = self.kwargs.get('idRayon')
+        refProd = self.kwargs.get('refProd')
+        return get_object_or_404(Contenir, idRayon=idRayon, refProd=refProd)
 
     def get_success_url(self):
         return reverse_lazy('dtl_rayon', kwargs={'pk': self.object.idRayon.idRayon})

@@ -12,6 +12,7 @@ class ProduitForm(forms.ModelForm):
     class Meta:
         model = Produit
         fields = '__all__'
+        exclude = ['id_rayon']
 
 class CategorieForm(forms.ModelForm):
     class Meta:

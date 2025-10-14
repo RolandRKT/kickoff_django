@@ -48,10 +48,13 @@ urlpatterns = [
     path("rayon/<pk>/update/", views.RayonUpdateView.as_view(), name="upd_rayon"),
     path("rayon/<pk>/delete/", views.RayonDeleteView.as_view(), name="dlt_rayon"),
 
-    # CONTENIR ADD
-    path('contenir/ajouter/', views.ContenirCreateView.as_view(), name='crt_contenir'),
-    path('contenir/<int:pk>/update/', views.UpdateContenirView.as_view(), name='upd_contenir'),
-    path('contenir/<int:pk>/delete/', views.DeleteContenirView.as_view(), name='dlt_contenir'),
+    # --- CONTENIR ---
+    # Ajouter un produit dans un rayon donné
+    path('rayon/<int:rayon_id>/contenir/ajouter/', views.ContenirCreateView.as_view(), name='crt_contenir'),
+    # Modifier une ligne Contenir spécifique
+    path('rayon/<int:idRayon>/produit/<int:refProd>/update/', views.UpdateContenirView.as_view(), name='upd_contenir'),
+    # Supprimer une ligne Contenir spécifique
+    path('rayon/<int:idRayon>/produit/<int:refProd>/delete/', views.DeleteContenirView.as_view(), name='dlt_contenir'),
 
     path("ma_vue/", views.ma_vue, name="ma_vuuue"),
 ]
