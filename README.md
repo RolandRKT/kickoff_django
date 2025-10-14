@@ -113,6 +113,22 @@ documentation bootstrap5 : https://django-bootstrap5.readthedocs.io/en/latest/qu
 
 # DÉBUT DU TD4
 
-# FIN DU TD4
+# Début TD 4
+
+Ce qui a été fait :
+
+Listes et détails des produits, catégories, statuts et rayons implémentés.
+
+Optimisation des requêtes avec select_related et prefetch_related pour limiter le nombre de requêtes.
+
+CRUD et authentification fonctionnels pour les quatre modèles principaux.
+
+Affichage des totaux et des informations liées dans les vues Rayon et Catégorie.
+
+Barre de recherche ajoutée pour les produits.
+
+Styles des pages de rayons
+
+Contenir quantité négative impossible
 
 # DÉBUT DU TP4
