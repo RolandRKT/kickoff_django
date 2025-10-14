@@ -465,21 +465,36 @@ class UpdateContenirView(UpdateView):
     template_name = "monApp/update_contenir.html"
 
     def get_object(self, queryset=None):
-        idRayon = self.kwargs.get('idRayon')
-        refProd = self.kwargs.get('refProd')
-        return get_object_or_404(Contenir, idRayon=idRayon, refProd=refProd)
+        id_rayon = self.kwargs.get('idRayon')
+        id_produit = self.kwargs.get('refProd')
+        return Contenir.objects.get(idRayon=id_rayon, refProd=id_produit)
 
-    def get_success_url(self):
-        # redirige vers la page du rayon après modification
-        return reverse_lazy('dtl_rayon', kwargs={'pk': self.object.idRayon.idRayon})
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        rayon_id = self.kwargs.get('idRayon')
+        context['rayon'] = get_object_or_404(Rayon, idRayon=rayon_id)
+        return context
 
     def form_valid(self, form):
-        contenir = form.save(commit=False)
-        if contenir.qte <= 0:
-            contenir.delete()
-        else:
-            contenir.save()
-        return redirect(self.get_success_url())
+        rayon_id = self.kwargs.get('idRayon')
+        ref_prod_id = self.kwargs.get('refProd')
+
+        rayon = get_object_or_404(Rayon, idRayon=rayon_id)
+        ref_prod = form.cleaned_data['refProd']
+        qte = form.cleaned_data['qte']
+
+        # Récupérer ou créer le lien Contenir
+        contenir, created = Contenir.objects.get_or_create(
+            idRayon=rayon,
+            refProd=ref_prod,
+            defaults={'qte': 0}
+        )
+
+        # Mettre à jour la quantité
+        contenir.qte = qte
+        contenir.save()
+
+        return redirect('dtl_rayon', pk=rayon_id)
     
 @method_decorator(login_required, name='dispatch')
 class DeleteContenirView(DeleteView):
