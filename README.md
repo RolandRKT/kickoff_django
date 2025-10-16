@@ -135,4 +135,5 @@ Modifier qte produit
 
 # DÉBUT DU TP4
 
-Dois faire les tests url
+Tests unitaires pour les vues CRUD de Categorie : création, détail, mise à jour et suppression. Vérification des codes HTTP, templates utilisés, redirections et intégrité des données.
+je dois faire maintenant le coverage html
